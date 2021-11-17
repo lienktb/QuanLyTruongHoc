@@ -22,6 +22,17 @@ if(isset($_POST['chartMajor'])){
     }
 }
 
-
+if(isset($_POST['chartScore'])){
+    $sql = "SELECT majorID, name, AVG(score) AS score FROM 
+    (SELECT major.majorID, registerID, major.name, score FROM major, register WHERE major.majorID = register.majorID) AS A GROUP BY majorID;";
+    $result = executeResult($sql);
+    if(count($result) > 0){
+        $data = array();
+        foreach($result as $score){
+            $data[] = $score;
+        }
+        print json_encode($data, JSON_UNESCAPED_UNICODE);
+    }
+}
 
 ?>

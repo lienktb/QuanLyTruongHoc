@@ -142,6 +142,12 @@
                         
                     </canvas>
                 </div>
+
+                <div class="chart-score" style="margin-top: 60px">
+                    <canvas id="chartScore">
+
+                    </canvas>
+                </div>
             </div>
         </main>
 
@@ -210,7 +216,42 @@
                         }
                     },
                 });
-           }) 
+           }) ;
+
+           $.post("./chart_data.php", 
+                {chartScore: "1"}, 
+                function(data){
+                    var score = JSON.parse(data);
+    
+                    var labels = []; var number = [];
+                    for( var i in score){
+                        labels.push(score[i].name);
+                        number.push(score[i].score);
+                        console.log(labels);
+                        console.log(number);
+                    }
+                    var bar= document.getElementById('chartScore').getContext('2d'); 
+                    var barGraph = new Chart(bar, {
+                        type: 'line',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'Thống kê điểm trung bình theo ngành học',
+                                data: number,
+                                fill: false,
+                                borderColor: 'rgb(75, 192, 192)',
+                                tension: 0.1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        },
+                    });
+                })
         })
 
     </script>

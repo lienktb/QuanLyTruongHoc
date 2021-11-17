@@ -224,26 +224,37 @@ if (!isset($_SESSION['username'])) {
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         function deleteStudent(id) {
-            $.post("delete_student.php", {
-                registerID: id
-            }, function(data) {
-
-                if (data === "1") {
-                    icon = "success";
-                    data = "Xoá thành công";
-                } else {
-                    icon = "error";
-                    data = "Không thể xoá thí sinh";
+            Swal.fire({
+                title: 'Bạn có chắc chắn muốn xoá không?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Xoá!'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    $.post("delete_student.php", {
+                        registerID: id
+                    }, function(data) {
+                        
+                        if (data === "1") {
+                            icon = "success";
+                            data = "Xoá thành công";
+                        } else {
+                            icon = "error";
+                            data = "Không thể xoá thí sinh";
+                        }
+                        Swal.fire({
+                            title: data,
+                            icon: icon,
+                            showConfirmButton: false,
+                            timer: 2000
+                        })
+                        setInterval('location.reload()', 2000);
+                    })
+                    
                 }
-                Swal.fire({
-                    title: data,
-                    icon: icon,
-                    showConfirmButton: false,
-                    timer: 2000
-                })
-                setInterval('location.reload()', 2500);
             })
-
         }
         $(document).ready(function() {
             $("#search").keyup(function() {
