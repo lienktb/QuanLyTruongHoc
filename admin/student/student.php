@@ -51,7 +51,7 @@ if (!isset($_SESSION['username'])) {
                         <span>Thống Kê</span></a>
                 </li>
                 <li>
-                    <a href="./logout/logout.php"><span class="las la-sign-out-alt""></span>
+                    <a href="../logout/logout.php"><span class="las la-sign-out-alt""></span>
                     <span>Đăng Xuất</span></a>
                 </li>
             </ul>
@@ -99,14 +99,13 @@ if (!isset($_SESSION['username'])) {
                     <div class="col-12 col-lg-3">
                         <a href="./add_student.php" class="btn add-btn" type="button">Thêm thí sinh</a>
                     </div>
-                </div><br>
-               
+                </div><br>         
                     <div class="form-row row">
                         <div class="col-md-4">
-
                             <select class='custom-select majorSelect' name="majorID">
                                 <option selected value="-1">Ngành học đăng ký...</option>
                                 <?php
+                                
                                 $sql = "SELECT * FROM major WHERE status = 1";
                                 $result = executeResult($sql);
                                 if (count($result) > 0) {
@@ -158,6 +157,7 @@ if (!isset($_SESSION['username'])) {
                                             birthday, score, address, email, phone, register.status FROM major, register 
                                             WHERE major.majorID = register.majorID ORDER BY registerID DESC)AS A WHERE name like '%{$search}%' ";
                                         } else {
+
                                             $sql = "SELECT register.name, major.name as mname,  major.majorID, register.registerID, birthday, score, address, email, phone, register.status FROM major, register WHERE major.majorID = register.majorID ORDER BY registerID DESC";
                                         }
                                         $result = executeResult($sql);
@@ -192,9 +192,6 @@ if (!isset($_SESSION['username'])) {
                                 </table>
                             </div>
                         
-                    
-                
-
                 </div>
         </main>
 

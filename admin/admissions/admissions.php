@@ -55,7 +55,7 @@
                     <span>Thống Kê</span></a>
                 </li>              
                 <li>
-                    <a href="./logout/logout.php"><span class="las la-sign-out-alt""></span>
+                    <a href="../logout/logout.php"><span class="las la-sign-out-alt""></span>
                     <span>Đăng Xuất</span></a>
                 </li>
             </ul>

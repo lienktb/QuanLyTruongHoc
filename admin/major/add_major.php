@@ -7,7 +7,7 @@
         header ("Location: ../login/login.php");
         die();
     }
-
+    $error = array();
     if(isset($_POST['add-btn'])){
         $majorID = $_POST['majorID'];
         $name = $_POST['name'];
@@ -15,18 +15,32 @@
         $block = $_POST['block'];
         $learning = $_POST['learning'];
         $status = $_POST['status'];
-
         $image = $_FILES['image']['name'];
         $image_tmp = $_FILES['image']['tmp_name'];
         $image = time().'_'.$image;
 
-        $sql = "INSERT INTO major (majorID, name, quality, block, learning, status, image) VALUES ('$majorID', '$name', '$quality', '$block','$learning', '$status', '$image')";
-        $result = execute($sql);
-        if($result > 0 ){
-            move_uploaded_file($image_tmp, 'uploads/'.$image);
-            $_SESSION['add-success'] = true;
+        $query = "SELECT * FROM major WHERE majorID = '$majorID' or name = '$name'";
+        $result = executeResult($query);
+    
+        if(empty($majorID)){
+            $error['majorID'] = "Bạn chưa nhập mã ngành";
         }
-        header("Location: ./major.php");
+        if(empty($name)){
+            $error['name'] = "Bạn chưa nhập tên ngành";
+        }
+        if($error){
+            $message = "Thiếu thông tin";
+        }else if(count($result) > 0){
+            $error['error'] = "Ngành học đã tồn tại!";
+        }else{
+            $sql = "INSERT INTO major (majorID, name, quality, block, learning, status, image) VALUES ('$majorID', '$name', '$quality', '$block','$learning', '$status', '$image')";
+            $result = execute($sql);
+            if($result > 0 ){
+                move_uploaded_file($image_tmp, 'uploads/'.$image);
+                $_SESSION['add-success'] = true;
+            }
+            header("Location: ./major.php");
+        }
     }
 ?>
 
@@ -74,7 +88,7 @@
                     <span>Thống Kê</span></a>
                 </li>              
                 <li>
-                    <a href="./logout/logout.php"><span class="las la-sign-out-alt""></span>
+                    <a href="../logout/logout.php"><span class="las la-sign-out-alt""></span>
                     <span>Đăng Xuất</span></a>
                 </li>
             </ul>
@@ -107,10 +121,12 @@
                 <div class="form-group col-md-6">
                         <label for="majorID">Mã ngành</label>
                         <input type="text" class="form-control" placeholder="Mã ngành" name="majorID">
+                        <span><?php isset($error['majorID']) ?  "Bạn chưa nhập mã ngành!" : ""?></span>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="name">Tên ngành</label>
                         <input type="text" class="form-control" placeholder="Tên ngành" name="name">
+                        <span><?php isset($error['name']) ?  "Bạn chưa nhập tên!" : ""?></span>
                     </div>
                    
                   </div>
@@ -149,7 +165,21 @@
                   <input type="submit" value="Thêm" class="btn add-btn" style="width: 100px" name="add-btn">
             </form>
             </div>
+            <span><?php isset($error['error']) ?  "Ngành học đã tồn tại!" : ""?></span>
         </main>
     </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+         if($("div").hasClass("error")){
+            Swal.fire({
+                icon: 'error',
+                title: 'Ngành học đã tồn tại!',
+                showConfirmButton: false,
+                timer: 2000
+            })
+            $(".error").remove();
+        }
+    </script>
 </body>
 </html>

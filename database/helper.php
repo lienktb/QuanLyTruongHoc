@@ -8,21 +8,17 @@ function execute ($sql) {
     if($result){
         return 1;
     }
-    return mysqli_error($conn);
+    return 0;
     mysqli_close($conn);
-    
 }
-
-// select
+//select
 function executeResult ($sql) {
     $conn = mysqli_connect(HOST, USERNAME, PASSWORD, DATABASE);
-    $resultset = mysqli_query($conn, $sql);
+    $result = mysqli_query($conn, $sql);
     $list = [];
-
-    while ($row = $resultset->fetch_assoc()){
+    while ($row = $result->fetch_assoc()){
         $list[] = $row;
-    }
-    
+    } 
     mysqli_close($conn);
     return $list;
 }

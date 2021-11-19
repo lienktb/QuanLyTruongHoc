@@ -43,7 +43,7 @@ if (isset($_POST["login"])) {
       <div class="card login-card">
         <div class="row no-gutters">
           <div class="col-md-5">
-            <img src="../image/login.jpg" alt="login" class="login-card-img">
+            <img src="../image/female-teache.png" alt="login" class="login-card-img">
           </div>
           <div class="col-md-7">
             <div class="card-body">

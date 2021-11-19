@@ -54,7 +54,7 @@
                     <span>Thống Kê</span></a>
                 </li>              
                 <li>
-                    <a href="./logout/logout.php"><span class="las la-sign-out-alt""></span>
+                    <a href="../logout/logout.php"><span class="las la-sign-out-alt""></span>
                     <span>Đăng Xuất</span></a>
                 </li>
             </ul>
@@ -125,7 +125,7 @@
                                             $sql = "SELECT * FROM major WHERE majorID like '%{$search}%' of name like '%{$search}%'";
                                         }
                                         else{
-                                            $sql = "SELECT * FROM major";
+                                            $sql = "SELECT * FROM major ORDER BY majorID DESC";
                                         }
                                             $result = executeResult($sql);
                                             if(count($result) > 0 ){
@@ -156,8 +156,6 @@
                                                     }
                                                    ?> 
                                               
-                                        
-                                    
                                     </tbody>
                                 </table>
                             </div>

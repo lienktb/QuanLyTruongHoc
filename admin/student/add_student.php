@@ -22,10 +22,32 @@
         $check = "SELECT * FROM register WHERE phone = '$phone' or email ='$email'";
         $exist = executeResult($check);
         
-        if(count($exist) > 0){    
-            
-            echo "<div class='thatbai'></div>";
-            
+        $error = array();
+        if (empty($name)) {
+            $error['name'] = "Bạn chưa nhập tên ";
+        }
+        if (empty($email)) {
+            $error['email'] = "Bạn chưa nhập email";
+        } else if (!preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $email)) {
+            $error['email'] = "Email không đúng định dạng";
+        }
+    
+        if (empty($phone)) {
+            $error['phone'] = "Bạn chưa nhập số điện thoại";
+        } else if (!preg_match("/^[0-9]+$/", $phone)) {
+            $error['phone'] = "Số điện thoại không hợp lệ";
+        }
+        if (empty($address)) {
+            $error['address'] = "Bạn chưa nhập địa chỉ";
+        }
+        if (empty($majorID <0)) {
+            $error['major'] = "Bạn chưa nhập ngành học";
+        }
+
+        if ($error) {
+            $message = "Thông tin không hợp lệ";
+        } else if(count($exist) > 0){    
+            echo "<div class='thatbai'></div>"; 
         }else{
             $sql = "INSERT INTO register(name, birthday, phone, email, score, highschool, address, majorID, status) VALUES
             ('$name', '$birthday', '$phone' , '$email', '$score', '$highschool', '$address', '$majorID', '$status')";
@@ -84,7 +106,7 @@
                     <span>Thống Kê</span></a>
                 </li>              
                 <li>
-                    <a href="./logout/logout.php"><span class="las la-sign-out-alt""></span>
+                    <a href="../logout/logout.php"><span class="las la-sign-out-alt""></span>
                     <span>Đăng Xuất</span></a>
                 </li>
             </ul>
@@ -117,6 +139,7 @@
                 <div class="form-group col-md-6">
                         <label for="name">Họ tên</label>
                         <input type="text" class="form-control" placeholder="Họ tên" name="name">
+                        <span><?php echo isset($error['name']) ? $error['name'] : ''; ?></span>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="name">Ngày sinh</label>
@@ -129,12 +152,14 @@
                         <label for="phone">Số điện thoại</label>
                         <input type="text" class="form-control" id = "phone" name="phone" placeholder="Số Điện Thoại *">
                         <span class="message" role="alert">
+                            <span><?php echo isset($error['phone']) ? $error['phone'] : ''; ?></span>
                         </span>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="email">Email</label>
                         <input type="email" class="form-control" id = "email" name="email" placeholder="Email *">
                         <span class="message1" role="alert">
+                            <span><?php echo isset($error['email']) ? $error['email'] : ''; ?></span>
                         </span>
                     </div>
                   </div>
@@ -152,6 +177,7 @@
                     <div class="form-group col-md-6">
                         <label for="address">Tỉnh/Thành phố </label>
                         <input type="text" class="form-control" name="address" placeholder="Tỉnh/Thành Phố *">
+                        <span><?php echo isset($error['address']) ? $error['address'] : ''; ?></span>
                     </div>
                     <div class="form-group col-md-6">
                       <label for="majorID">Ngành học đăng ký</label>
@@ -169,6 +195,7 @@
                                 }
                             ?>
                         </select>
+                        <span><?php echo isset($error['major']) ? $error['major'] : ''; ?></span>
                     </div>
                   </div>
                 

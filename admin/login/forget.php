@@ -18,7 +18,7 @@ if (isset($_POST['change'])) {
   if (empty($email)) {
     $error['email'] = "Bạn chưa nhập email";
   } else if (!preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $email)) {
-    $error['email'] = "Bạn chưa nhập email";
+    $error['email'] = "Email không hợp lệ";
   }
 
   if (!$error) {
@@ -56,7 +56,7 @@ if (isset($_POST['change'])) {
       <div class="card login-card">
         <div class="row no-gutters">
           <div class="col-md-5">
-            <img src="../image/login.jpg" alt="login" class="login-card-img">
+            <img src="../image/female-teache.png" alt="login" class="login-card-img">
           </div>
           <div class="col-md-7">
             <div class="card-body">
